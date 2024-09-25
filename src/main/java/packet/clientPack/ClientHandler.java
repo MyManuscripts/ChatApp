@@ -7,16 +7,19 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-public class ClientHandler {
-    private Socket clientSocket;
-    private List<ClientHandler> clients;
-    private PrintWriter out;
+
+// отслеживание списка всех подключенных клиентов
+public class ClientHandler implements Runnable{
+    private Socket clientSocket; // сокет
+    private List<ClientHandler> clients; // список клиентов
+    private PrintWriter out; /// вывод
 
     /* PrintWriter - это подкласс. Writer, который используется для печати форматированных данных в OutputStream
     или другой. Writer, которым он управляет. */
 
-    private BufferedReader in;
+    private BufferedReader in; // считывание входящих клиентов
 
+    // конструктор передачи значений
     public ClientHandler(Socket socket,List<ClientHandler> clients) throws IOException {
         this.clientSocket = socket;
         this.clients = clients;
@@ -28,9 +31,9 @@ public class ClientHandler {
         try {
 
             String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                for (ClientHandler aClient : clients) {
-                    aClient.out.println(inputLine);
+            while ((inputLine = in.readLine()) != null) { // если во входящей линии есть клиенты
+                for (ClientHandler aClient : clients) { // перебираем их
+                    aClient.out.println(inputLine); // и выводим
                 }
             }
         }catch (IOException e){
