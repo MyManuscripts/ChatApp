@@ -49,17 +49,6 @@ public class ClientChat {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     /*public ClientChat(String address,int port){
         try {
             socket = new Socket(address, port);

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 // отслеживание списка всех подключенных клиентов
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable{ // создание потока путем реализации интерфейса
     private Socket clientSocket; // сокет
     private List<ClientHandler> clients; // список клиентов
     private PrintWriter out; /// вывод
