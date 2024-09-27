@@ -83,12 +83,24 @@ public class ChatGraphics extends JFrame {
 
 //-------------------------------------------------------------------------------------------------
        // Кнопка выхода при закрытии окни чата, соединение будет разорвано
-        JButton exitButton = new JButton("Exit");           // создали JButton с пометкой exit
+        
+        /*JButton exitButton = new JButton("Exit");           // создали JButton с пометкой exit
         exitButton.addActionListener(e->System.exit(0));  // прослушиватель действий, выполняющий System.exit(0)
         JPanel bottomPanel = new JPanel(new BorderLayout());   // для размещения поля ввода и кнопки
         bottomPanel.add(textField, BorderLayout.CENTER);
         bottomPanel.add(exitButton, BorderLayout.EAST);
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.SOUTH);*/
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(e -> {
+            String departureMessage = name + " has left the chat";
+            try {
+                Thread.sleep(1000); // ждем 1 секунду, чтобы убедиться в отправке сообщения
+            }catch (InterruptedException ie){
+                Thread.currentThread().interrupt();
+            }
+            System.exit(0);
+        });
 
 
     }// public ChatGraphics()
