@@ -9,17 +9,6 @@ import java.io.IOException;  // исключения
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*public class ChatGraphics {
-
-    // Запрос на ввод имени пользователя
-    String name = JOptionPane.showInputDialog(this,"Enter your name:",
-            "name Entry", JOptionPane.PLAIN_MESSAGE);
-    this.setTitle("Chat application - " + name); // Укажите в заголовке окна имя пользователя
-
-    textField.add
-}*/
-
-
 public class ChatGraphics extends JFrame {
     private JTextArea messageArea; // многострочная область для отображения текста
     private JTextField textField; // создание новых сообщений
@@ -27,17 +16,23 @@ public class ChatGraphics extends JFrame {
 
     public ChatGraphics(){
 
+        // Заголовок
+        super("Chat application");
+        setSize(400,500);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Стили, цвета, шрифты
+        Color backgroundColor = new Color(240,240,240);
+        Color textColor = new Color(50,50,50);
+        Font textFont = new Font("Arial",Font.PLAIN,14);
+
+
         // Запрос на ввод имени пользователя при запуске приложения
         String name = JOptionPane.showInputDialog(this,"Enter your name:",
                 "name Entry", JOptionPane.PLAIN_MESSAGE);
         this.setTitle("Chat application - " + name); // Укажите в заголовке окна имя пользователя
         // используем имя, чтобы обновить заголовок
 
-//----------------------------------------------------------------------------------------------
-
-        // super("Chat Application");
-        setSize(400, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // операция призакрытии файла
 //-----------------------------------------------------------------------------------------------
 
         messageArea = new JTextArea();
@@ -46,9 +41,15 @@ public class ChatGraphics extends JFrame {
 //------------------------------------------------------------------------------------------------
         // ActionListener получает запись при выполнении действия
         textField = new JTextField();
+
+        // Стили текстового поля
+        textField.setFont(textFont);
+        textField.setForeground(textColor);
+        textField.setBackground(backgroundColor);
+
         textField.addActionListener(new ActionListener() {
 
-            // Когда рользователь нажиммает Enter создается строка сообщения
+            // Когда пользователь нажиммает Enter создается строка сообщения
             // Новая строка сообщения включает метку времени и имя пользователя
             // Это отправляется на сервер через client.SendMessage метод
             // После отправки сообщения текстовое поле очищается и готово для следующего сообщения.
@@ -70,7 +71,7 @@ public class ChatGraphics extends JFrame {
 
 //------------------------------------------------------------------------------------------------
         // Настройка подключения
-        // Инициализация и запуск чат клиента
+        // Инициализация и запуск чат-клиента
         try {
             this.client = new ClientChat("127.0.0.1",50728, this::onMessageReceived);
             client.startClient();
@@ -82,16 +83,11 @@ public class ChatGraphics extends JFrame {
         }
 
 //-------------------------------------------------------------------------------------------------
-       // Кнопка выхода при закрытии окни чата, соединение будет разорвано
-        
-        /*JButton exitButton = new JButton("Exit");           // создали JButton с пометкой exit
-        exitButton.addActionListener(e->System.exit(0));  // прослушиватель действий, выполняющий System.exit(0)
-        JPanel bottomPanel = new JPanel(new BorderLayout());   // для размещения поля ввода и кнопки
-        bottomPanel.add(textField, BorderLayout.CENTER);
-        bottomPanel.add(exitButton, BorderLayout.EAST);
-        add(bottomPanel, BorderLayout.SOUTH);*/
 
+        // Кнопка выхода при закрытии окни чата, соединение будет разорвано
         JButton exitButton = new JButton("Exit");
+
+        // Выход из чата
         exitButton.addActionListener(e -> {
             String departureMessage = name + " has left the chat";
             try {
@@ -101,10 +97,9 @@ public class ChatGraphics extends JFrame {
             }
             System.exit(0);
         });
-
-
     }// public ChatGraphics()
-//--------------------------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------------------------------
     // invokeLater запускает Runnable
     private void onMessageReceived(String message){
         SwingUtilities.invokeLater(() -> messageArea.append(message + "\n"));
